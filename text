@@ -2,7 +2,8 @@ docker rm -f $(docker ps -aq)
 
 docker build -t ebpf-playground:1.0.0 .
 
-docker exec -it f724323d18cc /bin/bash
+docker exec -it daad2bb870b1 /bin/bash
 
-nc -l -p 12345
-
+Установка bpftool
+https://itnull.me/threads/29303/
+bpftool prog show

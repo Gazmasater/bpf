@@ -34,5 +34,13 @@ COPY ebpf_socket_monitor.c /src/ebpf_example/
 # Compile eBPF Socket Monitor program
 RUN clang -O2 -target bpf -c /src/ebpf_example/ebpf_socket_monitor.c -o /src/ebpf_example/ebpf_socket_monitor.o
 
+# Clone bpftool repository with submodules
+RUN git clone --recurse-submodules https://github.com/libbpf/bpftool.git /src/bpftool
+
+# Change directory to bpftool/src and build it
+RUN cd /src/bpftool/src && \
+    make && \
+    make install
+
 # Add entrypoint to run the eBPF program
 ENTRYPOINT ["bash", "-c", "echo 'eBPF Socket Monitor loaded!' && sleep infinity"]
