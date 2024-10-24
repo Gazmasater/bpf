@@ -14,4 +14,4 @@ clang -O2 -target bpf -c ebpf_socket_monitor.c -o ebpf_socket_monitor.o
 bpftool prog load /src/ebpf_example/ebpf_socket_monitor.o /sys/fs/bpf/ebpf_socket_monitor
 
 
-bpftool prog show
+sudo bpftool prog show
