@@ -1,0 +1,76 @@
+1. Установите необходимые пакеты
+Запустите следующие команды для установки зависимостей:
+
+bash
+Копировать код
+sudo apt-get update && \
+sudo apt-get install -y build-essential git cmake \
+    zlib1g-dev libevent-dev \
+    libelf-dev llvm \
+    clang libc6-dev-i386 \
+    netcat-openbsd nano
+2. Создайте рабочую директорию
+Создайте и перейдите в рабочую директорию:
+
+bash
+Копировать код
+mkdir ~/src && cd ~/src
+git init
+3. Линк asm/byteorder.h для eBPF
+Создайте символическую ссылку на заголовочные файлы:
+
+bash
+Копировать код
+sudo ln -s /usr/include/x86_64-linux-gnu/asm/ /usr/include/asm
+4. Скачайте и соберите libbpf
+Клонируйте репозиторий libbpf-bootstrap и инициализируйте подмодули:
+
+bash
+Копировать код
+git clone https://github.com/libbpf/libbpf-bootstrap.git && \
+cd libbpf-bootstrap && \
+git submodule update --init --recursive
+Перейдите в директорию с исходниками libbpf и соберите её как статическую библиотеку:
+
+bash
+Копировать код
+cd libbpf/src && \
+make BUILD_STATIC_ONLY=y && \
+sudo make install BUILD_STATIC_ONLY=y LIBDIR=/usr/lib/x86_64-linux-gnu/
+5. Скачайте заголовки ядра для BPF
+Клонируйте репозиторий с исходниками ядра и скопируйте заголовки:
+
+bash
+Копировать код
+cd ~/src
+git clone --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && \
+sudo cp linux/include/uapi/linux/bpf* /usr/include/linux/
+6. Скомпилируйте eBPF программу
+Создайте директорию для примера с eBPF программой и скопируйте туда ваш файл ebpf_socket_monitor.c:
+
+bash
+Копировать код
+mkdir ~/src/ebpf_example
+cp /путь_к_вашему_файлу/ebpf_socket_monitor.c ~/src/ebpf_example/
+Скомпилируйте программу eBPF:
+
+bash
+Копировать код
+clang -O2 -target bpf -c ~/src/ebpf_example/ebpf_socket_monitor.c -o ~/src/ebpf_example/ebpf_socket_monitor.o
+7. Скачайте и соберите bpftool
+Клонируйте и соберите bpftool:
+
+bash
+Копировать код
+git clone --recurse-submodules https://github.com/libbpf/bpftool.git ~/src/bpftool && \
+cd ~/src/bpftool/src && \
+make && \
+sudo make install
+8. Запустите программу
+Теперь вы можете запустить свою программу eBPF вручную или добавить её в автозапуск:
+
+bash
+Копировать код
+echo "eBPF Socket Monitor loaded!"
+sleep infinity
+Таким образом, вы выполнили все те же действия, которые были прописаны в Dockerfile, но на хостовой машине.
