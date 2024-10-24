@@ -5,7 +5,8 @@ RUN apt-get update && \
     zlib1g-dev libevent-dev \
     libelf-dev llvm \
     clang libc6-dev-i386 \
-    netcat-openbsd  # Установка netcat
+    netcat-openbsd  \ 
+    nano
 
 RUN mkdir /src && \
     git init

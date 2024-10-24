@@ -1,9 +1,17 @@
 docker rm -f $(docker ps -aq)
 
-docker build -t ebpf-playground:1.0.0 .
+docker build -t ebpf-example .
+ docker run --privileged -it ebpf-example
 
-docker exec -it daad2bb870b1 /bin/bash
+docker exec -it 717c0ef9b77c /bin/bash
+dmesg -n 7
 
 Установка bpftool
 https://itnull.me/threads/29303/
+mount -t bpf bpffs /sys/fs/bpf
+clang -O2 -target bpf -c ebpf_socket_monitor.c -o ebpf_socket_monitor.o
+
+bpftool prog load /src/ebpf_example/ebpf_socket_monitor.o /sys/fs/bpf/ebpf_socket_monitor
+
+
 bpftool prog show
