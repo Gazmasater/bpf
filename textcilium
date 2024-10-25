@@ -106,6 +106,25 @@ gaz358@gaz358-BOD-WXX9:~/myprog$
 Логи
 journalctl -xe
 
+
+gaz358@gaz358-BOD-WXX9:~/myprog$ journalctl -xe
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ An ExecStart= process belonging to unit cilium-agent.service has exited.
+░░ 
+░░ The process' exit code is 'exited' and its exit status is 203.
+Oct 25 22:37:05 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Failed with result 'exit-code'.
+░░ Subject: Unit failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+░░ The unit cilium-agent.service has entered the 'failed' state with result 'exit-code'.
+lines 4398-4408/4408 (END)
+
+
+
+
+
 sudo systemctl status cilium-agent
 
 
