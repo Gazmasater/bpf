@@ -68,3 +68,27 @@ gaz358@gaz358-BOD-WXX9:~/myprog$ sudo systemctl status cilium-agent
     Process: 7018 ExecStart=/usr/local/bin/cilium-agent --config-dir=/etc/cilium (code=exited, status=203/EXEC)
    Main PID: 7018 (code=exited, status=203/EXEC)
         CPU: 985us
+
+Ошибка status=203/EXEC указывает на проблему с запуском cilium-agent, скорее всего из-за неправильного пути к исполняемому файлу или отсутствия разрешений на выполнение.
+
+Попробуйте следующие шаги для устранения проблемы:
+
+Проверьте путь к исполняемому файлу: Убедитесь, что файл /usr/local/bin/cilium-agent действительно существует и имеет разрешение на выполнение. Для этого выполните:
+
+bash
+Копировать код
+ls -l /usr/local/bin/cilium-agent
+Проверьте права доступа: Если файл существует, убедитесь, что у него установлены права на выполнение:
+
+bash
+Копировать код
+chmod +x /usr/local/bin/cilium-agent
+Проверьте содержимое файла службы: Откройте /etc/systemd/system/cilium-agent.service и убедитесь, что параметр ExecStart содержит правильный путь и параметры.
+
+Перезапустите службу: После внесения изменений перезагрузите systemd и запустите службу заново:
+
+bash
+Копировать код
+sudo systemctl daemon-reload
+sudo systemctl start cilium-agent
+
