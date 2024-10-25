@@ -92,3 +92,14 @@ bash
 sudo systemctl daemon-reload
 sudo systemctl start cilium-agent
 
+gaz358@gaz358-BOD-WXX9:~/myprog$ ls -l /usr/local/bin/cilium-agent
+-rwxrwxr-x 1 gaz358 gaz358 9 Oct 25 22:02 /usr/local/bin/cilium-agent
+gaz358@gaz358-BOD-WXX9:~/myprog$ chmod +x /usr/local/bin/cilium-agent
+gaz358@gaz358-BOD-WXX9:~/myprog$ ls -l /usr/local/bin/cilium-agent
+-rwxrwxr-x 1 gaz358 gaz358 9 Oct 25 22:02 /usr/local/bin/cilium-agent
+gaz358@gaz358-BOD-WXX9:~/myprog$ nano /etc/systemd/system/cilium-agent.service
+gaz358@gaz358-BOD-WXX9:~/myprog$ sudo systemctl daemon-reload
+[sudo] password for gaz358: 
+gaz358@gaz358-BOD-WXX9:~/myprog$ sudo systemctl start cilium-agent
+gaz358@gaz358-BOD-WXX9:~/myprog$ 
+
