@@ -123,6 +123,20 @@ Oct 25 22:37:05 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Failed with re
 ░░ The unit cilium-agent.service has entered the 'failed' state with result 'exit-code'.
 lines 4398-4408/4408 (END)
 
+az358@gaz358-BOD-WXX9:~/myprog$ journalctl -u cilium-agent.service
+Oct 25 22:04:22 gaz358-BOD-WXX9 systemd[1]: Started cilium-agent.service - Cilium Agent.
+Oct 25 22:04:22 gaz358-BOD-WXX9 (um-agent)[6732]: cilium-agent.service: Failed to execute /usr/local/bin/cilium>
+Oct 25 22:04:22 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Main process exited, code=exited, status=203/>
+Oct 25 22:04:22 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Failed with result 'exit-code'.
+Oct 25 22:04:27 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Scheduled restart job, restart counter is at >
+Oct 25 22:04:27 gaz358-BOD-WXX9 systemd[1]: Started cilium-agent.service - Cilium Agent.
+Oct 25 22:04:27 gaz358-BOD-WXX9 (um-agent)[6762]: cilium-agent.service: Failed to execute /usr/local/bin/cilium>
+Oct 25 22:04:27 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Main process exited, code=exited, status=203/>
+Oct 25 22:04:27 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Failed with result 'exit-code'.
+Oct 25 22:04:32 gaz358-BOD-WXX9 systemd[1]: cilium-agent.service: Scheduled restart job, restart counter is at >
+Oct 25 22:04:33 gaz358-BOD-WXX9 systemd[1]: Started cilium-agent.service - Cilium Agent.
+lines 1-11
+
 
 
 
