@@ -14,6 +14,34 @@ sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
 rm cilium-linux-amd64.tar.gz{,.sha256sum}
 
+gaz358@gaz358-BOD-WXX9:~/myprog$ CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/$CLI_VERSION/cilium-linux-amd64.tar.gz{,.sha256sum}
+sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
+rm cilium-linux-amd64.tar.gz{,.sha256sum}
+Command 'curl' not found, but can be installed with:
+sudo snap install curl  # version 8.1.2, or
+sudo apt  install curl  # version 8.5.0-2ubuntu10.4
+See 'snap info curl' for additional versions.
+Command 'curl' not found, but can be installed with:
+sudo snap install curl  # version 8.1.2, or
+sudo apt  install curl  # version 8.5.0-2ubuntu10.4
+See 'snap info curl' for additional versions.
+sha256sum: cilium-linux-amd64.tar.gz.sha256sum: No such file or directory
+tar (child): cilium-linux-amd64.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+rm: cannot remove 'cilium-linux-amd64.tar.gz': No such file or directory
+rm: cannot remove 'cilium-linux-amd64.tar.gz.sha256sum': No such file or directory
+
+
+
+
+
+
+
+
 Скачайте бинарный файл Cilium Agent
 Сначала загрузите и установите последний релиз Cilium Agent:
 
