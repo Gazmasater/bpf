@@ -1,1 +1,1 @@
-{"bpf_skel":{"data_sections":[],"maps":[{"ident":"rodata_str1_1","name":".rodata.str1.1"}],"obj_name":"ebpf_socket_monitor_bpf","progs":[{"attach":"kprobe/__x64_sys_execve","link":true,"name":"trace_connect"}]},"eunomia_version":"0.3.4"}
+{"bpf_skel":{"data_sections":[{"name":".bss","variables":[{"name":"counter","type":"int"}]}],"maps":[{"ident":"bss","mmaped":true,"name":"ebpf_soc.bss"},{"ident":"rodata","name":"ebpf_soc.rodata"}],"obj_name":"ebpf_socket_monitor_bpf","progs":[{"attach":"xdp","link":true,"name":"hello"}]},"eunomia_version":"0.3.4"}
