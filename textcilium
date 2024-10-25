@@ -60,3 +60,11 @@ sudo systemctl enable cilium-agent
 Убедитесь, что Cilium Agent успешно запустился:
 
 sudo systemctl status cilium-agent
+
+gaz358@gaz358-BOD-WXX9:~/myprog$ sudo systemctl status cilium-agent
+● cilium-agent.service - Cilium Agent
+     Loaded: loaded (/etc/systemd/system/cilium-agent.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Fri 2024-10-25 22:05:25 MSK; 2s ago
+    Process: 7018 ExecStart=/usr/local/bin/cilium-agent --config-dir=/etc/cilium (code=exited, status=203/EXEC)
+   Main PID: 7018 (code=exited, status=203/EXEC)
+        CPU: 985us
