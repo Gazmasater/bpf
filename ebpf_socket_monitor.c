@@ -12,22 +12,10 @@ struct bpf_sock_create_args
 };
 
 SEC("cgroup/sock_create")
-int bpf_sock_create(struct bpf_sock *sk, struct bpf_sock_create_args *ctx)
+int bpf_sock_create(struct bpf_sock_create_args *ctx)
 {
-    char msg[64];
-    unsigned long long data[3]; // Массив для хранения данных для форматирования
-
-    // Заполняем массив данными
-    data[0] = ctx->family;
-    data[1] = ctx->type;
-    data[2] = ctx->protocol;
-
-    // Используем bpf_snprintf
-    const char *fmt = "Socket created: family=%llu type=%llu protocol=%llu";
-    bpf_snprintf(msg, sizeof(msg), fmt, data, sizeof(data));
-
-    // Запись информации о созданном сокете в dmesg
-    bpf_trace_printk(msg, sizeof(msg));
+    bpf_printk("Socket created: family=%d type=%d protocol=%d\n",
+               ctx->family, ctx->type, ctx->protocol);
 
     return 0;
 }
