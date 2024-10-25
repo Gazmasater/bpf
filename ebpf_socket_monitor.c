@@ -2,7 +2,7 @@
 #include <bpf/bpf_helpers.h>
 #include <linux/ptrace.h>
 
-SEC("tracepoint/syscalls/sys_enter_connect")
+SEC("kprobe/__x64_sys_execve")
 int trace_connect(struct pt_regs *ctx)
 {
     // Получаем PID текущего процесса
