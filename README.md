@@ -1,54 +1,37 @@
-#include <linux/bpf.h>
-#include <bpf/bpf_helpers.h>
-#include <linux/socket.h>
-#include <linux/ptrace.h>
-#include <linux/sched.h>
-#include <linux/in.h>
-#include <linux/inet.h>
-#include <linux/ip.h>
+Чтобы установить все необходимые заголовочные файлы для разработки и полного доступа к функциям ядра Linux, выполните следующие шаги:
 
-// Функция для обработки входящего сокета
-SEC("tracepoint/syscalls/sys_enter_socket")
-int bpf_socket_enter(void *ctx)
-{
-    bpf_printk("Socket creation called\n");
-    return 0; // Возврат 0, чтобы не прерывать выполнение функции
-}
+Обновите список пакетов:
 
-SEC("tracepoint/syscalls/sys_exit_socket")
-int bpf_socket_exit(void *ctx)
-{
-    struct bpf_sock *sock; // Замените на правильный способ получения сокета
-    // Получите информацию о сокете через контекст, если это возможно
-    // sock = bpf_get_socket(ctx); // Пример функции, проверьте, существует ли
+bash
+Копировать код
+sudo apt-get update
+Установите заголовки ядра Linux: Установите заголовки, соответствующие вашей версии ядра:
 
-    if (sock)
-    {
-        __be32 local_ip = sock->sk_rcv_saddr; // Используйте правильные поля структуры
-        __be16 local_port = sock->sk_num;     // Используйте правильные поля структуры
+bash
+Копировать код
+sudo apt-get install linux-headers-$(uname -r)
+Это установит заголовочные файлы, подходящие для вашей текущей версии ядра. Они будут находиться в каталоге /usr/src/linux-headers-$(uname -r).
 
-        // Печатаем адрес и порт
-        bpf_printk("Socket created - Local IP: %d.%d.%d.%d, Local Port: %d\n",
-                   (local_ip >> 0) & 0xFF,
-                   (local_ip >> 8) & 0xFF,
-                   (local_ip >> 16) & 0xFF,
-                   (local_ip >> 24) & 0xFF,
-                   ntohs(local_port));
-    }
+Установите стандартные заголовочные файлы и библиотеки для разработки: Для работы с различными системными вызовами и библиотеками в Linux установите пакеты:
 
-    return 0; // Возврат 0, чтобы не прерывать выполнение функции
-}
+bash
+Копировать код
+sudo apt-get install build-essential
+sudo apt-get install libc6-dev
+sudo apt-get install linux-libc-dev
+build-essential включает компилятор GCC, make и другие утилиты.
+libc6-dev и linux-libc-dev включают стандартные системные заголовочные файлы и библиотеки.
+Установите исходные коды ядра (опционально): Если вам нужно более детально работать с компонентами ядра, можно установить полный исходный код ядра:
 
-// Лицензия для модуля
-char LICENSE[] SEC("license") = "Dual BSD/GPL";
+bash
+Копировать код
+sudo apt-get install linux-source
+После установки исходники будут находиться в /usr/src/.
 
+Убедитесь, что заголовочные файлы установлены: Проверьте, что нужные заголовки доступны, например:
 
-sudo apt update
-
-sudo apt install build-essential libc6-dev
-
-sudo apt install linux-headers-$(uname -r)
-
-sudo apt install linux-libc-dev
-
-sudo apt install linux-headers-generic
+bash
+Копировать код
+ls /usr/include/linux/atomic.h
+ls /usr/src/linux-headers-$(uname -r)/
+Эти шаги установят большинство заголовочных файлов, необходимых для разработки в Linux, с поддержкой сетевых функций, системных вызовов и компонентов ядра.
