@@ -9,9 +9,16 @@ sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev
 Скачивание исходного кода ядра: Исходный код ядра можно загрузить с kernel.org, выбрав нужную версию.
 
 
-wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.x.x.tar.xz
-tar -xvf linux-5.x.x.tar.xz
-cd linux-5.x.x
+# Получаем последнюю версию ядра
+LATEST_VERSION=$(curl -s https://www.kernel.org/finger_banner | grep "stable" | awk '{print $2}')
+
+# Скачиваем последнюю версию ядра
+wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${LATEST_VERSION}.tar.xz
+
+tar -xvf linux-${LATEST_VERSION}.tar.xz
+cd linux-${LATEST_VERSION}
+
+
 
 Конфигурация ядра:
 
