@@ -70,6 +70,9 @@ uname -r
 
 Это покажет версию ядра, и вы сможете убедиться, что используется новое ядро.
 
+sudo make headers_install INSTALL_HDR_PATH=/usr/include
+
+
 
 
 
