@@ -85,4 +85,46 @@ make: *** No rule to make target 'headers_install'.  Stop.
 gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ ^C
 
 
+# Makefile
+
+# Указываем компилятор
+CC = gcc
+
+# Указываем директорию для установки заголовков
+INSTALL_DIR = /usr/include/mypackage
+
+# Исходные файлы
+SRCS = main.c utils.c
+OBJS = $(SRCS:.c=.o)
+
+# Целевая программа
+TARGET = myprogram
+
+# Основная цель
+all: $(TARGET)
+
+# Правило для создания исполняемого файла
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $^
+
+# Правило для компиляции исходных файлов
+%.o: %.c
+	$(CC) -c $< -o $@
+
+# Правило для установки заголовков
+headers_install:
+	mkdir -p $(INSTALL_DIR)
+	cp *.h $(INSTALL_DIR)
+
+# Правило для очистки
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+# Установка заголовков
+install: headers_install
+
+.PHONY: all clean headers_install install
+
+
+
 
