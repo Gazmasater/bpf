@@ -1,0 +1,1 @@
+{"bpf_skel":{"data_sections":[],"maps":[{"ident":"rodata","name":"ebpf_soc.rodata"}],"obj_name":"ebpf_socket_monitor_bpf","progs":[{"attach":"kprobe/sys_socket","link":true,"name":"bpf_socket"}]},"eunomia_version":"0.3.4"}

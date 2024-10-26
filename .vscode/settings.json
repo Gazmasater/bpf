@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "ptrace.h": "c",
+        "socket.h": "c",
+        "sched.h": "c",
+        "bpf_helpers.h": "c",
+        "cgroup.h": "c"
+    }
+}
