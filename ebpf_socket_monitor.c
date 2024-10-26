@@ -7,22 +7,21 @@
 #include <linux/inet.h>
 #include <linux/ip.h>
 
-
 SEC("tracepoint/syscalls/sys_enter_socket")
 int bpf_socket_enter(void *ctx)
 {
     bpf_printk("Socket creation called\n");
-    return 0; 
+    return 0;
 }
 
 SEC("tracepoint/syscalls/sys_exit_socket")
 int bpf_socket_exit(void *ctx)
 {
-    struct bpf_sock *sock; 
+    struct bpf_sock *sock;
     if (sock)
     {
-        __be32 local_ip = sock->sk_rcv_saddr; 
-        __be16 local_port = sock->sk_num;   
+        __be32 local_ip = sock->sk_rcv_saddr;
+        __be16 local_port = sock->sk_num;
 
         // Печатаем адрес и порт
         bpf_printk("Socket created - Local IP: %d.%d.%d.%d, Local Port: %d\n",
@@ -33,8 +32,7 @@ int bpf_socket_exit(void *ctx)
                    ntohs(local_port));
     }
 
-    return 0; 
+    return 0;
 }
-
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
