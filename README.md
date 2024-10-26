@@ -19,6 +19,7 @@ cd linux-5.x.x
 
 
 cp /boot/config-$(uname -r) .config
+
 Затем запустите команду настройки конфигурации ядра:
 
 
