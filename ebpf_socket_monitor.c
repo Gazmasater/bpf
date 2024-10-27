@@ -22,17 +22,13 @@ int bpf_bind_enter(void *ctx)
     // Получаем IP-адрес
     __be32 ip = addr->sin_addr.s_addr;
 
-    // Проверяем, что адрес сокета является прослушивающим
-    if (addr->sin_port != 0)
-    { // Порт должен быть ненулевым
-        // Конвертируем IP в читаемый формат
-        unsigned char *ip_bytes = (unsigned char *)&ip;
+    // Конвертируем IP в читаемый формат
+    unsigned char *ip_bytes = (unsigned char *)&ip;
 
-        // Выводим информацию: IP, PID, имя процесса
-        bpf_printk("Listening on IP: %u.%u.%u.%u, PID: %u, Process: %s\n",
-                   ip_bytes[0], ip_bytes[1], ip_bytes[2], ip_bytes[3],
-                   pid, comm);
-    }
+    // Выводим информацию: IP, PID, имя процесса
+    bpf_printk("Binding on IP: %u.%u.%u.%u, PID: %u, Process: %s\n",
+               ip_bytes[0], ip_bytes[1], ip_bytes[2], ip_bytes[3],
+               pid, comm);
 
     return 0;
 }

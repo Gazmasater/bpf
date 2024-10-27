@@ -1,0 +1,1 @@
+{"bpf_skel":{"data_sections":[],"maps":[{"ident":"rodata","name":"ebpf_soc.rodata"}],"obj_name":"ebpf_socket_monitor_bpf","progs":[{"attach":"tracepoint/syscalls/sys_enter_bind","link":true,"name":"bpf_bind_enter"}]},"eunomia_version":"0.3.4"}
