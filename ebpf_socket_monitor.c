@@ -19,10 +19,10 @@ int bpf_bind_enter(void *ctx)
     bpf_get_current_comm(&comm, sizeof(comm));
 
     // Получаем файловый дескриптор сокета
-    sockfd = *(int *)ctx; // sockfd передается в `bind`
+    sockfd = *(int *)ctx;
 
     // Получаем адрес
-    addr = (struct sockaddr_in *)(ctx + sizeof(int)); // sockaddr_in идет сразу после sockfd
+    addr = (struct sockaddr_in *)(ctx + sizeof(int));
 
     // Получаем IP-адрес и порт
     __be32 ip = addr->sin_addr.s_addr;
