@@ -2,33 +2,32 @@
 #include <bpf/bpf_helpers.h>
 #include <linux/socket.h>
 #include <linux/in.h>
-
-static inline __be16 my_ntohs(__be16 netshort)
-{
-    return (netshort << 8) | (netshort >> 8);
-}
+#include <linux/types.h> // Добавлено для определения u32
 
 SEC("tracepoint/syscalls/sys_enter_bind")
 int bpf_bind_enter(void *ctx)
 {
     struct sockaddr_in *addr;
-    int sockfd;
     char comm[16];
 
     // Получаем имя процесса
     bpf_get_current_comm(&comm, sizeof(comm));
 
-    // Получаем файловый дескриптор сокета
-    sockfd = *(int *)ctx;
+    // Получаем PID процесса
+    __u32 pid = bpf_get_current_pid_tgid() >> 32;
 
     // Получаем адрес
     addr = (struct sockaddr_in *)(ctx + sizeof(int));
 
-    // Получаем IP-адрес и порт
+    // Получаем IP-адрес
     __be32 ip = addr->sin_addr.s_addr;
-    __be16 port = addr->sin_port;
 
-    bpf_printk("Process: %s, IP: %u, Port: %u\n", comm, ip, my_ntohs(port));
+    // Конвертируем IP в понятный формат
+    unsigned char *ip_bytes = (unsigned char *)&ip;
+    bpf_printk("IP: %u.%u.%u.%u, PID: %u, Process: %s\n",
+               ip_bytes[0], ip_bytes[1], ip_bytes[2], ip_bytes[3],
+               pid, comm);
+
     return 0;
 }
 
