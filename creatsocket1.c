@@ -15,8 +15,8 @@ SEC("tracepoint/syscalls/sys_exit_socket")
 int bpf_socket_exit(struct bpf_sock_tuple *tuple)
 {
     bpf_printk("Socket created\n");
-    return 0; // Возврат 0, чтобы не прерывать выполнение функции
+    return 0; 
 }
 
-// Лицензия для модуля
+
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
