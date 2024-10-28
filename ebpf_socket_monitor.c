@@ -33,9 +33,8 @@ SEC("tracepoint/syscalls/sys_enter_socket")
 int bpf_socket_enter(struct sys_enter_sock *ctx)
 {
     __u32 pid = bpf_get_current_pid_tgid() >> 32; // Получаем PID
-    int protocol = ctx->protocol;                 // Получаем протокол из параметров
 
-    bpf_printk("Socket creation called by PID: %d, Protocol: %d\n", pid, protocol);
+    bpf_printk("Socket creation called by PID: %d\n", pid);
     return 0; // Возврат 0, чтобы не прерывать выполнение функции
 }
 
@@ -48,14 +47,39 @@ int bpf_socket_exit(struct sys_exit_sock *ctx)
     return 0;
 }
 
-// Обработчик операций с сокетом
 SEC("sockops")
 int sockops_handler(struct bpf_sock_ops *skops)
 {
-    __u32 pid = bpf_get_current_pid_tgid() >> 32; // Получаем PID
-    bpf_printk("Socket operation by PID: %d, Operation: %d\n", pid, skops->op);
+    switch (skops->op)
+    {
+    case BPF_SOCK_OPS_TCP_CONNECT_CB:
+        // TODO
+        break;
+    case BPF_SOCK_OPS_TCP_LISTEN_CB:
+        // TODO
+        break;
+    case BPF_SOCK_OPS_ACTIVE_ESTABLISHED_CB:
+        // TODO
+        if (skops->family == AF_INET)
+        {
+            bpf_printk("sa:%pI4 sp:%d", &skops->local_ip4, bpf_ntohs(skops->local_port));
+            bpf_printk("da:%pI4 dp:%d", &skops->remote_ip4, bpf_ntohs(skops->remote_port));
+        }
+        else if (skops->family == AF_INET6)
+        {
+            bpf_printk("sa:%pI6 sp:%d", &skops->local_ip6, bpf_ntohs(skops->local_port));
+            bpf_printk("da:%pI6 dp:%d", &skops->remote_ip6, bpf_ntohs(skops->remote_port));
+        }
+        break;
+    case BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB:
+        // TODO
+        break;
+    case BPF_SOCK_OPS_STATE_CB:
+        // TODO
+        break;
+    default:
+        break;
+    }
+
     return 0;
 }
-
-// Лицензия для модуля
-char LICENSE[] SEC("license") = "Dual BSD/GPL";
