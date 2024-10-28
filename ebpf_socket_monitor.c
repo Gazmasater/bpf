@@ -5,16 +5,18 @@
 #include <linux/sched.h>
 
 SEC("tracepoint/syscalls/sys_enter_socket")
-int bpf_socket_enter(struct bpf_sock_tuple *tuple)
+int bpf_socket_enter(struct pt_regs *ctx)
 {
-    bpf_printk("Socket creation called\n");
+    __u32 pid = bpf_get_current_pid_tgid() >> 32;
+    bpf_printk("Socket creation called by PID: %d\n", pid);
     return 0;
 }
 
 SEC("tracepoint/syscalls/sys_exit_socket")
-int bpf_socket_exit(struct bpf_sock_tuple *tuple)
+int bpf_socket_exit(struct pt_regs *ctx)
 {
-    bpf_printk("Socket created\n");
+    __u32 pid = bpf_get_current_pid_tgid() >> 32;
+    bpf_printk("Socket created by PID: %d\n", pid);
     return 0;
 }
 
