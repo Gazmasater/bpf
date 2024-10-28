@@ -1,35 +1,20 @@
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 #include <linux/socket.h>
-#include <linux/in.h>
-#include <linux/types.h> // Для определения u32
+#include <linux/ptrace.h>
+#include <linux/sched.h>
 
-SEC("tracepoint/syscalls/sys_enter_bind")
-int bpf_bind_enter(void *ctx)
+SEC("tracepoint/syscalls/sys_enter_socket")
+int bpf_socket_enter(struct bpf_sock_tuple *tuple)
 {
-    struct sockaddr_in *addr;
-    char comm[16];
+    bpf_printk("Socket creation called\n");
+    return 0;
+}
 
-    // Получаем имя процесса
-    bpf_get_current_comm(&comm, sizeof(comm));
-
-    // Получаем PID процесса
-    __u32 pid = bpf_get_current_pid_tgid() >> 32;
-
-    // Получаем указатель на структуру sockaddr_in
-    addr = (struct sockaddr_in *)(ctx + sizeof(int));
-
-    // Получаем IP-адрес
-    __be32 ip = addr->sin_addr.s_addr;
-
-    // Конвертируем IP в читаемый формат
-    unsigned char *ip_bytes = (unsigned char *)&ip;
-
-    // Выводим информацию: IP, PID, имя процесса
-    bpf_printk("Binding on IP: %u.%u.%u.%u, PID: %u, Process: %s\n",
-               ip_bytes[0], ip_bytes[1], ip_bytes[2], ip_bytes[3],
-               pid, comm);
-
+SEC("tracepoint/syscalls/sys_exit_socket")
+int bpf_socket_exit(struct bpf_sock_tuple *tuple)
+{
+    bpf_printk("Socket created\n");
     return 0;
 }
 
