@@ -69,21 +69,15 @@ int probe_accept4(struct pt_regs *ctx)
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
-gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ sudo ./ecli run package.json
-[sudo] password for gaz358: 
-INFO [faerie::elf] strtab: 0x26c symtab 0x2a8 relocs 0x2f0 sh_offset 0x2f0
-INFO [bpf_loader_lib::skeleton::preload::section_loader] User didn't specify custom value for variable counter, use the default one in ELF
-libbpf: prog 'probe_accept4': failed to create kprobe 'accept4+0x0' perf event: No such file or directory
-Error: Failed to run native eBPF program
 
-Caused by:
-    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to attach program `probe_accept4`: Internal error: bpf call \"libbpf_rs::program::Program::attach::{{closure}}\" returned NULL"), RecvError
-gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""2
 
-Caused by:
-    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to load bpf object\n\nCaused by:\n    System error, errno: 22"), RecvError
-
-
-
-
+SEC("kprobe/__x64_sys_open")
+int probe_open(struct pt_regs *ctx)
+{
+    bpf_printk("Hello World KPROBE open %d", counter);
+    counter++;
+    return 0;
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
