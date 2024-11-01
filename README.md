@@ -59,7 +59,7 @@ cat ~/.ssh/id_rsa.pub
 #include <bpf/bpf_helpers.h>
 int counter = 0;
 
-SEC("kprobes/accept4")
+SEC("kprobe/accept4")
 int probe_accept4(struct pt_regs *ctx)
 {
     bpf_printk("Hello World KPROBES%d", counter);
@@ -70,12 +70,15 @@ int probe_accept4(struct pt_regs *ctx)
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ sudo ./ecli run package.json
-INFO [faerie::elf] strtab: 0x26d symtab 0x2a8 relocs 0x2f0 sh_offset 0x2f0
+[sudo] password for gaz358: 
+INFO [faerie::elf] strtab: 0x26c symtab 0x2a8 relocs 0x2f0 sh_offset 0x2f0
 INFO [bpf_loader_lib::skeleton::preload::section_loader] User didn't specify custom value for variable counter, use the default one in ELF
-libbpf: prog 'probe_accept4': missing BPF prog type, check ELF section name 'kprobes/accept4'
-libbpf: prog 'probe_accept4': failed to load: -22
-libbpf: failed to load object 'hellokprobes_bpf'
+libbpf: prog 'probe_accept4': failed to create kprobe 'accept4+0x0' perf event: No such file or directory
 Error: Failed to run native eBPF program
+
+Caused by:
+    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to attach program `probe_accept4`: Internal error: bpf call \"libbpf_rs::program::Program::attach::{{closure}}\" returned NULL"), RecvError
+gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ 
 
 Caused by:
     Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to load bpf object\n\nCaused by:\n    System error, errno: 22"), RecvError
