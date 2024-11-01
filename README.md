@@ -53,7 +53,18 @@ cat ~/.ssh/id_rsa.pub
 Нажмите на кнопку New SSH key.
 Вставьте ваш SSH-ключ в поле "Key" и добавьте название в поле "Title" (например, "My Laptop").
 Нажмите Add SSH key.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ ./ecli run package.json
+INFO [faerie::elf] strtab: 0x236 symtab 0x270 relocs 0x2b8 sh_offset 0x2b8
+INFO [bpf_loader_lib::skeleton::preload::section_loader] User didn't specify custom value for variable counter, use the default one in ELF
+libbpf: Failed to bump RLIMIT_MEMLOCK (err = -1), you might need to do it explicitly!
+libbpf: Error in bpf_object__probe_loading():Operation not permitted(1). Couldn't load trivial BPF program. Make sure your kernel supports BPF (CONFIG_BPF_SYSCALL=y) and/or that RLIMIT_MEMLOCK is set to big enough value.
+libbpf: failed to load object 'hello_bpf����|'
+Error: Failed to run native eBPF program
+
+Caused by:
+    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to load bpf object\n\nCaused by:\n    System error, errno: 1"), RecvError
 
 
 
