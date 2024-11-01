@@ -55,16 +55,30 @@ cat ~/.ssh/id_rsa.pub
 Нажмите Add SSH key.
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ ./ecli run package.json
-INFO [faerie::elf] strtab: 0x236 symtab 0x270 relocs 0x2b8 sh_offset 0x2b8
+#include <linux/bpf.h>
+#include <bpf/bpf_helpers.h>
+int counter = 0;
+
+SEC("kprobes/accept4")
+int probe_accept4(struct pt_regs *ctx)
+{
+    bpf_printk("Hello World KPROBES%d", counter);
+    counter++;
+    return 0;
+}
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
+
+gaz358@gaz358-BOD-WXX9:~/myprog/bpf$ sudo ./ecli run package.json
+INFO [faerie::elf] strtab: 0x26d symtab 0x2a8 relocs 0x2f0 sh_offset 0x2f0
 INFO [bpf_loader_lib::skeleton::preload::section_loader] User didn't specify custom value for variable counter, use the default one in ELF
-libbpf: Failed to bump RLIMIT_MEMLOCK (err = -1), you might need to do it explicitly!
-libbpf: Error in bpf_object__probe_loading():Operation not permitted(1). Couldn't load trivial BPF program. Make sure your kernel supports BPF (CONFIG_BPF_SYSCALL=y) and/or that RLIMIT_MEMLOCK is set to big enough value.
-libbpf: failed to load object 'hello_bpf����|'
+libbpf: prog 'probe_accept4': missing BPF prog type, check ELF section name 'kprobes/accept4'
+libbpf: prog 'probe_accept4': failed to load: -22
+libbpf: failed to load object 'hellokprobes_bpf'
 Error: Failed to run native eBPF program
 
 Caused by:
-    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to load bpf object\n\nCaused by:\n    System error, errno: 1"), RecvError
+    Bpf error: Failed to start polling: Bpf("Failed to load and attach: Failed to load bpf object\n\nCaused by:\n    System error, errno: 22"), RecvError
 
 
 
